@@ -29,6 +29,7 @@ def create_workspace():
     create_folder('./tmp')
     create_folder('./tmp/datasets')
     create_folder('./tmp/images')
+    create_folder('./tmp/evaluation')
 
 '''
 NAME: to_file_save_name

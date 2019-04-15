@@ -22,7 +22,7 @@ are present separate arrays are created and returned.
 '''
 def train_test_split(df, label=None, split=[0.8, 0.2], seed=None):
     if not isinstance(df, pd.DataFrame):
-        raise DataFrameTypeError('df')
+        raise DataFrameTypeError('df', df)
 
     if not np.sum(split) == 1.0:
         raise DataSplitError(np.sum(split))
@@ -69,7 +69,7 @@ test set. If labels are present separate arrays are created and returned.
 '''
 def train_val_test_split(df, label=None, split=[0.6, 0.2, 0.2], seed=None):
     if not isinstance(df, pd.DataFrame):
-        raise DataFrameTypeError('df')
+        raise DataFrameTypeError('df', df)
 
     if not np.sum(split) == 1.0:
         raise DataSplitError(np.sum(split))
@@ -99,3 +99,18 @@ def train_val_test_split(df, label=None, split=[0.6, 0.2, 0.2], seed=None):
     X_test = test.drop([label], axis=1).values
 
     return X_train, y_train, X_val, y_val, X_test, y_test
+
+
+'''
+NAME: cross_validation
+PARAMS:
+- X_test: the test data
+- y_test: the test labels
+DESCRIPTION:
+RETURN: accuracy score
+'''
+def cross_validation(fn, fn_arguments, n=5):
+    score = 0.
+    for _ in range(n):
+        score += fn(*fn_arguments)
+    return score / n

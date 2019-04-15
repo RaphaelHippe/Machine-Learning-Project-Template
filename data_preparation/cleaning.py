@@ -12,7 +12,7 @@ RETURN: the manipulated DataFrame
 '''
 def remove_NaN_rows(df, how='any'):
     if not isinstance(df, pd.DataFrame):
-        raise DataFrameTypeError('df')
+        raise DataFrameTypeError('df', df)
     df.dropna(how=how)
     return df
 
@@ -26,7 +26,7 @@ RETURN: the manipulated DataFrame
 '''
 def remove_NaN_columns(df, how='any'):
     if not isinstance(df, pd.DataFrame):
-        raise DataFrameTypeError('df')
+        raise DataFrameTypeError('df', df)
     df.dropna(how=how, axis='columns')
     return df
 
@@ -40,7 +40,7 @@ RETURN: the manipulated DataFrame
 '''
 def replace_NaN_with_mean(df):
     if not isinstance(df, pd.DataFrame):
-        raise DataFrameTypeError('df')
+        raise DataFrameTypeError('df', df)
     mean = df.mean(numeric_only=True).to_dict()
     df.fillna(mean)
     return df

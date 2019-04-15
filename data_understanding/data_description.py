@@ -5,7 +5,7 @@ from util.general import to_txt
 
 def describe_data(df, name):
     if not isinstance(df, pd.DataFrame):
-        raise DataFrameTypeError('df')
+        raise DataFrameTypeError('df', df)
 
     file_content = 'Data description for {}\n'.format(name)
 
