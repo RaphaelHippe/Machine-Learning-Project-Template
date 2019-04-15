@@ -23,6 +23,7 @@ data_understanding:
 # DATA PREPARATION
 data_preparation:
   data_split:
+    execute: True
     validation_set: False
     label: goodPlate
     split:
