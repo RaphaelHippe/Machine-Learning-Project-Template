@@ -1,0 +1,39 @@
+# SETTINGS
+# GENERAL
+general:
+  data:
+    path: ./../Uni/master-thesis/datasets/plates_10
+    type: csv
+# DATA UNDERSTANDING
+data_understanding:
+  description:
+    execute: False
+    name: plates_10
+    include: all
+  plots:
+    execute: False
+    histograms:
+      execute: True
+      columns: -1
+      label: goodPlate
+      format: png
+    boxplots:
+      execute: False
+      columns: -1
+# DATA PREPARATION
+data_preparation:
+  data_split:
+    validation_set: False
+    label: goodPlate
+    split:
+      - 0.8
+      - 0.2
+    seed: None
+# MODELING
+modeling:
+  classification:
+    execute: False
+    classifiers:
+      - knn
+# EVALUATION
+evaluation:

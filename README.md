@@ -17,6 +17,7 @@ A list of used python modules (using pip):
 - Numpy
 - category_encoders
 - matplotlib
+- PyYAML
 
 ## License
 See the [LICENSE](https://github.com/RaphaelHippe/Machine-Learning-Project-Template/blob/master/LICENSE) file fore more information!

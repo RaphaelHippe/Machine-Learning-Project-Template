@@ -8,7 +8,6 @@ from util.general import to_file_save_name
 def plot_histograms(df, columns=-1, label=None, format='png'):
     if not isinstance(df, pd.DataFrame):
         raise DataFrameTypeError('df', df)
-
     if columns == -1:
         columns = df.columns
 

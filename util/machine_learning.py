@@ -60,10 +60,10 @@ default value is None specifies no label is present.
 RETURN:
 - X_train: A numpy array containing the train data.
 - y_train: A numpy array containing the train labels.
-- X_val: A numpy array containing the validation data.
-- y_val: A numpy array containing the validation labels.
 - X_test: A numpy array containing the test data.
 - y_test: A numpy array containing the test labels.
+- X_val: A numpy array containing the validation data.
+- y_val: A numpy array containing the validation labels.
 DESCRIPTION: Splitting the data set randomly into a train, a validation and a
 test set. If labels are present separate arrays are created and returned.
 '''
@@ -82,23 +82,23 @@ def train_val_test_split(df, label=None, split=[0.6, 0.2, 0.2], seed=None):
 
     m = len(df_new)
     train_end = int(split[0] * m)
-    val_end = int(split[1] * m) + train_end
+    test_end = int(split[1] * m) + train_end
 
     train = df_new[:train_end]
-    val = df_new[train_end:val_end]
-    test = df_new[val_end:]
+    test = df_new[train_end:test_end]
+    val = df_new[test_end:]
 
     if label == None:
-        return train.values, _, val.values, _, test.values, _
+        return train.values, _, test.values, _, val.values, _
 
     y_train = train[label].values
     X_train = train.drop([label], axis=1).values
-    y_val = val[label].values
-    X_val = val.drop([label], axis=1).values
     y_test = test[label].values
     X_test = test.drop([label], axis=1).values
+    y_val = val[label].values
+    X_val = val.drop([label], axis=1).values
 
-    return X_train, y_train, X_val, y_val, X_test, y_test
+    return X_train, y_train, X_test, y_test, X_val, y_val
 
 
 '''

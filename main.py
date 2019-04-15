@@ -1,40 +1,68 @@
-from sklearn.datasets import load_wine, load_breast_cancer
+import yaml
 import pandas as pd
 
-from util.machine_learning import train_val_test_split, cross_validation
-from data_understanding.data_plots import plot_histograms, plot_boxplots
-from data_understanding.data_description import describe_data
-from modeling.classification import train_knn_clf, predict, train_gnb_clf
-from evaluation.scoring import calc_accuracy
-from data_preparation.scaling import apply_min_max_scaling
+
+def main(config):
+
+    # loading data
+
+    if config['general']['data']['type'] == 'csv':
+        df = pd.read_csv('{}.csv'.format(config['general']['data']['path']))
+    elif config['general']['data']['type'] == 'pickle':
+        df = pd.read_pickle('{}.pkl'.format(config['general']['data']['path']))
+    else:
+        pass # TODO: Raise exception
 
 
-data = load_breast_cancer()
-df = pd.DataFrame(data.data, columns=data.feature_names)
+    # data understanding
+    # description
+    if config['data_understanding']['description']['execute']:
+        from data_understanding.data_description import describe_data
+        describe_data(df, config['data_understanding']['description']['name'])
+    # plots
+    if config['data_understanding']['plots']['execute']:
+        # histograms
+        if config['data_understanding']['plots']['histograms']['execute']:
+            from data_understanding.data_plots import plot_histograms
+            plot_histograms(df,
+                            columns=config['data_understanding']['plots']['histograms']['columns'],
+                            label=config['data_understanding']['plots']['histograms']['label'],
+                            format=config['data_understanding']['plots']['histograms']['format'])
+        # boxplots
+        if config['data_understanding']['plots']['boxplots']['execute']:
+            from data_understanding.data_plots import plot_boxplots
+            plot_boxplots(df,
+                            columns=config['data_understanding']['plots']['histograms']['columns'],
+                            label=config['data_understanding']['plots']['histograms']['label'],
+                            format=config['data_understanding']['plots']['histograms']['format'])
+
+    # data preparation
+    if config['data_preparation']['data_split']['execute']:
+        if config['data_preparation']['data_split']['validation_set']:
+            from util.machine_learning import train_val_test_split
+            X_train, y_train, X_test, y_test, X_val, y_val = train_val_test_split(df,
+                                                                                  label=config['data_preparation']['data_split']['label']
+                                                                                  split=config['data_preparation']['data_split']['split']
+                                                                                  seed=config['data_preparation']['data_split']['seed'])
+        else:
+            from util.machine_learning import train_test_split
+            X_train, y_train, X_test, y_test = train_test_split(df,
+                                                                label=config['data_preparation']['data_split']['label']
+                                                                split=config['data_preparation']['data_split']['split']
+                                                                seed=config['data_preparation']['data_split']['seed'])
+
+    # modeling
+    if config['modeling']['classification']['execute']:
+            pass
+
+    # evaluation
 
 
-df['y'] = data.target
-
-df = apply_min_max_scaling(df)
-# describe_data(df, 'breast_cancer')
 
 
-
-# plot_histograms(df, columns=['proline'], format='svg', label='y')
-# plot_boxplots(df, label='y')
-
-#
-X_train, y_train, X_val, y_val, X_test, y_test = train_val_test_split(df, label='y')
-#
-# print(X_train.shape)
-# print(y_train.shape)
-# print(X_val.shape)
-# print(y_val.shape)
-# print(X_test.shape)
-# print(y_test.shape)
-
-clf = train_knn_clf(X_train, y_train)
-y_pred = predict(clf, X_val)
-# acc = calc_accuracy(y_val, y_pred)
-acc = cross_validation(calc_accuracy, (y_val, y_pred), n=50)
-print('acc', acc)
+with open('config.yaml', 'r') as stream:
+    try:
+        config = yaml.load(stream)
+        main(config)
+    except yaml.YAMLError as exc:
+        print(exc)
