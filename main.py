@@ -53,7 +53,8 @@ def main(config):
 
     # modeling
     if config['modeling']['classification']['execute']:
-            pass
+            for clf_key in config['modeling']['classification']['classifiers']:
+                pass
 
     # evaluation
 
