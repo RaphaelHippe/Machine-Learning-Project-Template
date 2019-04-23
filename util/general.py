@@ -1,8 +1,8 @@
 import os
-from multiprocessing import Pool
-from functools import partial
-import time
-import tqdm
+# from multiprocessing import Pool
+# from functools import partial
+# import time
+# import tqdm
 
 
 '''
@@ -56,31 +56,31 @@ def to_txt(file, str):
 
 
 
-'''
-NAME: import_from_uri
-PARAMS:
-- file: file path
-- str: the string to save in the txt file
-DESCRIPTION: Creates a new file with the path "file" and "str" as content.
-RETURN: -
-'''
-def import_from_uri(uri, absl=False):
-    import os
-    import imp
-	if not absl:
-		uri = os.path.normpath(os.path.join(os.path.dirname(__file__), uri))
-	path, fname = os.path.split(uri)
-	mname, ext = os.path.splitext(fname)
-
-	no_ext = os.path.join(path, mname)
-
-	if os.path.exists(no_ext + '.pyc'):
-		try:
-			return imp.load_compiled(mname, no_ext + '.pyc')
-		except:
-			pass
-	if os.path.exists(no_ext + '.py'):
-		try:
-			return imp.load_source(mname, no_ext + '.py')
-		except:
-			pass
+# '''
+# NAME: import_from_uri
+# PARAMS:
+# - file: file path
+# - str: the string to save in the txt file
+# DESCRIPTION: Creates a new file with the path "file" and "str" as content.
+# RETURN: -
+# '''
+# def import_from_uri(uri, absl=False):
+#     import os
+#     import imp
+# 	if not absl:
+#         uri = os.path.normpath(os.path.join(os.path.dirname(__file__), uri))
+# 	path, fname = os.path.split(uri)
+# 	mname, ext = os.path.splitext(fname)
+#
+# 	no_ext = os.path.join(path, mname)
+#
+# 	if os.path.exists(no_ext + '.pyc'):
+# 		try:
+# 			return imp.load_compiled(mname, no_ext + '.pyc')
+# 		except:
+# 			pass
+# 	if os.path.exists(no_ext + '.py'):
+# 		try:
+# 			return imp.load_source(mname, no_ext + '.py')
+# 		except:
+# 			pass

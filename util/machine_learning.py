@@ -28,7 +28,7 @@ def train_test_split(df, label=None, split=[0.8, 0.2], seed=None):
         raise DataSplitError(np.sum(split))
 
     df_new = df.copy()
-    if seed == None:
+    if seed == None or seed == 'None':
         df_new = shuffle(df_new)
     else:
         df_new = shuffle(df_new, random_state=seed)
@@ -75,7 +75,7 @@ def train_val_test_split(df, label=None, split=[0.6, 0.2, 0.2], seed=None):
         raise DataSplitError(np.sum(split))
 
     df_new = df.copy()
-    if seed == None:
+    if seed == None or seed == 'None':
         df_new = shuffle(df_new)
     else:
         df_new = shuffle(df_new, random_state=seed)

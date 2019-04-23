@@ -41,14 +41,14 @@ def main(config):
         if config['data_preparation']['data_split']['validation_set']:
             from util.machine_learning import train_val_test_split
             X_train, y_train, X_test, y_test, X_val, y_val = train_val_test_split(df,
-                                                                                  label=config['data_preparation']['data_split']['label']
-                                                                                  split=config['data_preparation']['data_split']['split']
+                                                                                  label=config['data_preparation']['data_split']['label'],
+                                                                                  split=config['data_preparation']['data_split']['split'],
                                                                                   seed=config['data_preparation']['data_split']['seed'])
         else:
             from util.machine_learning import train_test_split
             X_train, y_train, X_test, y_test = train_test_split(df,
-                                                                label=config['data_preparation']['data_split']['label']
-                                                                split=config['data_preparation']['data_split']['split']
+                                                                label=config['data_preparation']['data_split']['label'],
+                                                                split=config['data_preparation']['data_split']['split'],
                                                                 seed=config['data_preparation']['data_split']['seed'])
 
     # modeling

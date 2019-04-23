@@ -2,20 +2,20 @@
 # GENERAL
 general:
   data:
-    path: ./../Uni/master-thesis/datasets/plates_10
+    path: ./../datasets/breast_cancer
     type: csv
 # DATA UNDERSTANDING
 data_understanding:
   description:
-    execute: False
-    name: plates_10
+    execute: True
+    name: breast_cancer
     include: all
   plots:
     execute: False
     histograms:
       execute: True
       columns: -1
-      label: goodPlate
+      label: y
       format: png
     boxplots:
       execute: False
@@ -25,7 +25,7 @@ data_preparation:
   data_split:
     execute: True
     validation_set: False
-    label: goodPlate
+    label: y
     split:
       - 0.8
       - 0.2
