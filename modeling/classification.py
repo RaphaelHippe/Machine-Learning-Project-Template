@@ -130,3 +130,13 @@ RETURN: the trained classifier object
 def train_random_forest_clf(X_train, y_train):
     from sklearn.ensemble import RandomForestClassifier
     return train_clf(RandomForestClassifier(), X_train, y_train)
+
+
+def get_classifier_function(clf_key):
+    if clf_key == 'knn':
+        return train_knn_clf
+    elif clf_key == 'rfc':
+        return train_random_forest_clf
+    else:
+        pass
+        # TODO: raise exception

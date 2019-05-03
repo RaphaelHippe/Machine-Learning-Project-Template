@@ -21,7 +21,7 @@
   - clustering
   - storing classifiers
 - evaluation
-  - storing results
+  - storing results (done, versioning required)
   - more control over metrics
 
 # Machine Learning Project Template

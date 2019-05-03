@@ -2,30 +2,47 @@
 # GENERAL
 general:
   data:
-    path: ./../datasets/breast_cancer
+    path: ./../Uni/master-thesis/datasets/damage_done
     type: csv
+    label: ct_wins
+    name: csgo_dd
 # DATA UNDERSTANDING
 data_understanding:
   description:
-    execute: True
-    name: breast_cancer
+    execute: False
     include: all
   plots:
     execute: False
     histograms:
       execute: True
       columns: -1
-      label: y
       format: png
     boxplots:
       execute: False
       columns: -1
 # DATA PREPARATION
 data_preparation:
+  encodings:
+    execute: True
+    encoding: LeaveOneOut
+    categorical_columns:
+      - weapon
+      - attackerSpotted
+      - attackerSide
+      - attackerIsScoped
+      - attackerIsDucked
+      - attackerIsDucking
+      - attackerHasHelmet
+      - victimSide
+      - victimIsDucked
+      - victimIsDucking
+      - victimIsDefusing
+      - victimIsScoped
+      - victimHasHelmet
+      - t_wins
   data_split:
     execute: True
     validation_set: False
-    label: y
     split:
       - 0.8
       - 0.2
@@ -33,8 +50,15 @@ data_preparation:
 # MODELING
 modeling:
   classification:
-    execute: False
+    execute: True
     classifiers:
       - knn
+      - rfc
 # EVALUATION
 evaluation:
+  classification:
+    execute: True
+    cross_val: 5
+    metrics:
+      - acc
+      - f1

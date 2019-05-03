@@ -116,13 +116,15 @@ PARAMS:
 DESCRIPTION:
 RETURN:
 '''
-def apply_leave_one_out_encoding(df, label='y', categorical_columns):
+def apply_leave_one_out_encoding(df, categorical_columns, label='y'):
     if not isinstance(df, pd.DataFrame):
         raise DataFrameTypeError('df', df)
     import category_encoders as ce
-    encoder = ce.LeaveOneOutEncoder(cols=categorical_columns).fit(df.drop([label], axis=1), df[label])
-    X_transformed = encoder.transform(df)
+    encoder = ce.LeaveOneOutEncoder(return_df=True, cols=categorical_columns).fit(df.drop([label], axis=1), df[label])
+    X_transformed = encoder.transform(df.drop([label], axis=1))
+    X_transformed[label] = df[label]
     return X_transformed
+
 
 '''
 NAME: apply_target_encoding
@@ -132,7 +134,7 @@ PARAMS:
 DESCRIPTION:
 RETURN:
 '''
-def apply_target_encoding(df, label='y', categorical_columns):
+def apply_target_encoding(df, categorical_columns, label='y'):
     if not isinstance(df, pd.DataFrame):
         raise DataFrameTypeError('df', df)
     import category_encoders as ce
@@ -148,7 +150,7 @@ PARAMS:
 DESCRIPTION:
 RETURN:
 '''
-def apply_ordinal_encoding(df, label='y', categorical_columns):
+def apply_ordinal_encoding(df, categorical_columns, label='y'):
     if not isinstance(df, pd.DataFrame):
         raise DataFrameTypeError('df', df)
     import category_encoders as ce
@@ -164,7 +166,7 @@ PARAMS:
 DESCRIPTION:
 RETURN:
 '''
-def apply_weight_of_evidence_encoding(df, label='y', categorical_columns):
+def apply_weight_of_evidence_encoding(df, categorical_columns, label='y'):
     if not isinstance(df, pd.DataFrame):
         raise DataFrameTypeError('df', df)
     import category_encoders as ce
@@ -180,7 +182,7 @@ PARAMS:
 DESCRIPTION:
 RETURN:
 '''
-def apply_pca(df, label='y', categorical_columns):
+def apply_pca(df, categorical_columns, label='y'):
     if not isinstance(df, pd.DataFrame):
         raise DataFrameTypeError('df', df)
     # TODO: implement

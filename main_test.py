@@ -1,3 +1,5 @@
+import yaml
+
 from sklearn.datasets import load_wine, load_breast_cancer
 import pandas as pd
 
@@ -9,32 +11,24 @@ from evaluation.scoring import calc_accuracy
 from data_preparation.scaling import apply_min_max_scaling
 
 
-data = load_breast_cancer()
-df = pd.DataFrame(data.data, columns=data.feature_names)
 
 
-df['y'] = data.target
+def main(config):
+    df = pd.read_csv('{}.csv'.format(config['general']['data']['path']))
 
-df = apply_min_max_scaling(df)
-# describe_data(df, 'breast_cancer')
+    from data_preparation.encodings import apply_leave_one_out_encoding
+    df = apply_leave_one_out_encoding(df, categorical_columns=config['data_preparation']['encodings']['categorical_columns'], label=config['general']['data']['label'])
+
+    from data_understanding.data_description import describe_data
+    describe_data(df, 'dd_encoded')
 
 
 
-# plot_histograms(df, columns=['proline'], format='svg', label='y')
-# plot_boxplots(df, label='y')
 
-#
-X_train, y_train, X_val, y_val, X_test, y_test = train_val_test_split(df, label='y')
-#
-# print(X_train.shape)
-# print(y_train.shape)
-# print(X_val.shape)
-# print(y_val.shape)
-# print(X_test.shape)
-# print(y_test.shape)
 
-clf = train_knn_clf(X_train, y_train)
-y_pred = predict(clf, X_val)
-# acc = calc_accuracy(y_val, y_pred)
-acc = cross_validation(calc_accuracy, (y_val, y_pred), n=50)
-print('acc', acc)
+with open('config.yaml', 'r') as stream:
+    try:
+        config = yaml.load(stream)
+        main(config)
+    except yaml.YAMLError as exc:
+        print(exc)
