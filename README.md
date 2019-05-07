@@ -11,7 +11,8 @@ facing a new machine learning challenge.
 ## Getting Started
 TODO
 ## Documentation
-TODO
+This project is documented on the [GitHub wiki](https://github.com/RaphaelHippe/Machine-Learning-Project-Template/wiki).
+DISCLAIMER: Like the project itself the documentation is unfinished at the moment.
 
 ## Dependencies
 A list of used python modules (using pip):
