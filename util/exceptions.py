@@ -17,3 +17,9 @@ class UnknownKeyError(Exception):
         self.type = type
     def __str__(self):
         return repr('The given key "{}" is not supported for {}. See the documentation at https://github.com/RaphaelHippe/Machine-Learning-Project-Template/wiki for all options.'.format(self.value, self.type))
+
+class NoConfigFileError(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr('No config.yaml file was found. Use `python setup.py` to generate the config.yaml file.')

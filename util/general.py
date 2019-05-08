@@ -89,32 +89,66 @@ def to_txt_with_versioning(file, str):
         new_file = file + '_0'
     to_txt(new_file, str)
 
-
-# '''
-# NAME: import_from_uri
-# PARAMS:
-# - file: file path
-# - str: the string to save in the txt file
-# DESCRIPTION: Creates a new file with the path "file" and "str" as content.
-# RETURN: -
-# '''
-# def import_from_uri(uri, absl=False):
-#     import os
-#     import imp
-# 	if not absl:
-#         uri = os.path.normpath(os.path.join(os.path.dirname(__file__), uri))
-# 	path, fname = os.path.split(uri)
-# 	mname, ext = os.path.splitext(fname)
-#
-# 	no_ext = os.path.join(path, mname)
-#
-# 	if os.path.exists(no_ext + '.pyc'):
-# 		try:
-# 			return imp.load_compiled(mname, no_ext + '.pyc')
-# 		except:
-# 			pass
-# 	if os.path.exists(no_ext + '.py'):
-# 		try:
-# 			return imp.load_source(mname, no_ext + '.py')
-# 		except:
-# 			pass
+def create_config_yaml():
+    from collections import OrderedDict
+    import yaml
+    def ordered_dict_representer(self, value):  # can be a lambda if that's what you prefer
+        return self.represent_mapping('tag:yaml.org,2002:map', value.items())
+    yaml.add_representer(OrderedDict, ordered_dict_representer)
+    config = OrderedDict(
+        general = OrderedDict(
+            data = OrderedDict(
+                path = 'path/to/dataset/from/project/root',
+                type = 'csv',
+                label = 'y',
+                name = 'dataset_name'
+            )
+        ),
+        data_understanding = OrderedDict(
+            description = OrderedDict(
+                execute = False,
+                include = 'all'
+            ),
+            plots = OrderedDict(
+                execute = False,
+                histograms = OrderedDict(
+                    execute = False,
+                    columns = -1,
+                    format = 'png'
+                ),
+                boxplots = OrderedDict(
+                    execute = False,
+                    columns = -1,
+                    format = 'png'
+                )
+            )
+        ),
+        data_preparation = OrderedDict(
+            encodings = OrderedDict(
+                execute = False,
+                encoding = 'LeaveOneOut',
+                categorical_columns = ['a', 'b']
+            ),
+            data_split = OrderedDict(
+                execute = False,
+                validation_set = False,
+                split = [0.8, 0.2],
+                seed = None
+            ),
+        ),
+        modeling = OrderedDict(
+            classification = OrderedDict(
+                execute = False,
+                classifiers = ['knn']
+            )
+        ),
+        evaluation = OrderedDict(
+            classification = OrderedDict(
+                execute = False,
+                cross_val = 5,
+                metrics = ['acc']
+            )
+        )
+    )
+    with open('config.yaml', 'w') as outfile:
+        yaml.dump(config, outfile, default_flow_style=False)

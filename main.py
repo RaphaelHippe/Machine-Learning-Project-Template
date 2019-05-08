@@ -1,6 +1,6 @@
 import yaml
 import pandas as pd
-
+import os
 
 def main(config):
 
@@ -11,7 +11,8 @@ def main(config):
     elif config['general']['data']['type'] == 'pickle':
         df = pd.read_pickle('{}.pkl'.format(config['general']['data']['path']))
     else:
-        pass # TODO: Raise exception
+        from util.exceptions import UnknownKeyError
+        raise UnknownKeyError(config['general']['data']['type'], 'data type while loading data set')
 
 
     # data understanding
@@ -57,7 +58,7 @@ def main(config):
                                                                 label=config['general']['data']['label'],
                                                                 split=config['data_preparation']['data_split']['split'],
                                                                 seed=config['data_preparation']['data_split']['seed'])
-        
+
     # TODO: exception if X_train, y_train etc is not defined
     # modeling
     if config['modeling']['classification']['execute']:
@@ -95,9 +96,13 @@ def main(config):
 
 
 
-with open('config.yaml', 'r') as stream:
-    try:
-        config = yaml.load(stream)
-        main(config)
-    except yaml.YAMLError as exc:
-        print(exc)
+if os.path.isfile('config.yaml'):
+    with open('config.yaml', 'r') as stream:
+        try:
+            config = yaml.load(stream)
+            main(config)
+        except yaml.YAMLError as exc:
+            print(exc)
+else:
+    from util.exceptions import NoConfigFileError
+    raise NoConfigFileError(None)
