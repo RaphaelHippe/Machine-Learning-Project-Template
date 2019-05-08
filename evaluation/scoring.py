@@ -53,17 +53,21 @@ def get_metric_function(metric_key):
         return calc_accuracy
     elif metric_key == 'f1':
         return calc_f1
+    elif metric_key == 'recall':
+        return calc_recall
+    elif metric_key == 'precision':
+        return calc_precision
     else:
-        pass
-        # TODO: raise exception
+        from util.exceptions import UnknownKeyError
+        raise UnknownKeyError(metric_key, 'scoring metric')
 
 
 def save_score(name, scores, cv_n):
-    from util.general import to_txt
+    from util.general import to_txt_with_versioning
     file_content = 'Evaluation for {}\n'.format(name)
     file_content += '\n All scores have been cross validated {} times'.format(cv_n)
 
     for (clf_key, metric_key, cv_score) in scores:
         file_content += '\n {} {} scored: {}'.format(clf_key, metric_key, cv_score)
 
-    to_txt('./tmp/evaluation/{}_eval'.format(name), file_content)
+    to_txt_with_versioning('./tmp/evaluation/{}_eval'.format(name), file_content)

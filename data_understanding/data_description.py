@@ -1,7 +1,7 @@
 import pandas as pd
 
 from util.exceptions import DataFrameTypeError
-from util.general import to_txt
+from util.general import to_txt_with_versioning
 
 def describe_data(df, name, include='all'):
     if not isinstance(df, pd.DataFrame):
@@ -15,4 +15,4 @@ def describe_data(df, name, include='all'):
 
     file_content += '\n\nThe data set has {} NaN values.'.format(df.isnull().values.sum())
 
-    to_txt('./tmp/datasets/{}_description'.format(name), file_content)
+    to_txt_with_versioning('./tmp/datasets/{}_description'.format(name), file_content)

@@ -53,7 +53,7 @@ modeling:
     execute: True
     classifiers:
       - knn
-      - rfc
+      - ada
 # EVALUATION
 evaluation:
   classification:

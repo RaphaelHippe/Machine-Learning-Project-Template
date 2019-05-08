@@ -133,10 +133,24 @@ def train_random_forest_clf(X_train, y_train):
 
 
 def get_classifier_function(clf_key):
-    if clf_key == 'knn':
+    if clf_key == 'sgd':
+        return train_sgd_clf
+    elif clf_key == 'knn':
         return train_knn_clf
+    elif clf_key == 'gp_':
+        return train_gp_clf
+    elif clf_key == 'gnb':
+        return train_gnb_clf
+    elif clf_key == 'mnb':
+        return train_mnb_clf
+    elif clf_key == 'cnb':
+        return train_cnb_clf
+    elif clf_key == 'bnb':
+        return train_bnb_clf
+    elif clf_key == 'ada':
+        return train_adaboost_clf
     elif clf_key == 'rfc':
         return train_random_forest_clf
     else:
-        pass
-        # TODO: raise exception
+        from util.exceptions import UnknownKeyError
+        raise UnknownKeyError(clf_key, 'classification algorithms')
