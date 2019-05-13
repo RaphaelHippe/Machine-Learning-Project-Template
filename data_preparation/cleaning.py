@@ -44,3 +44,17 @@ def replace_NaN_with_mean(df):
     mean = df.mean(numeric_only=True).to_dict()
     df.fillna(mean)
     return df
+
+'''
+NAME: drop_csv_column
+PARAMS:
+- df: the DataFrame containing the data
+DESCRIPTION: drops the index column (Unnamed: 0) from CSV files
+RETURN: the manipulated DataFrame
+'''
+def drop_csv_column(df):
+    if not isinstance(df, pd.DataFrame):
+        raise DataFrameTypeError('df', df)
+    if 'Unnamed: 0' in df.columns:
+        df.drop(['Unnamed: 0'], axis='columns', inplace=True)
+    return df

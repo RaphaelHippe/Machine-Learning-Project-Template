@@ -79,15 +79,14 @@ a upwards counting number is created.
 RETURN: -
 '''
 def to_txt_with_versioning(file, str):
-    if os.path.isfile(file):
-        if file.find('_') == -1:
-            new_file = file + '_0'
-        else:
-            curr_version = file.split('_')[-1]
-            new_file = rreplace(file, '_{}'.format(curr_version), '_{}'.format(int(curr_version)+1), 1)
+    if not os.path.isfile(file + '.txt') and not file.find('_v') == -1:
+        to_txt(file, str)
+    elif file.find('_v') == -1:
+        to_txt_with_versioning(file + '_v0', str)
     else:
-        new_file = file + '_0'
-    to_txt(new_file, str)
+        curr_version = file.split('_v')[-1]
+        new_file = rreplace(file, '_v{}'.format(curr_version), '_v{}'.format(int(curr_version)+1), 1)
+        to_txt_with_versioning(new_file, str)
 
 def create_config_yaml():
     from collections import OrderedDict
@@ -107,7 +106,8 @@ def create_config_yaml():
         data_understanding = OrderedDict(
             description = OrderedDict(
                 execute = False,
-                include = 'all'
+                include = 'all',
+                n = 5
             ),
             plots = OrderedDict(
                 execute = False,
@@ -124,6 +124,10 @@ def create_config_yaml():
             )
         ),
         data_preparation = OrderedDict(
+            drop_columns = OrderedDict(
+                execute = False,
+                cols = ['a']
+            ),
             encodings = OrderedDict(
                 execute = False,
                 encoding = 'LeaveOneOut',

@@ -30,6 +30,7 @@ def plot_boxplots(df, columns=-1, label=None, format='png'):
     if columns == -1:
         columns = df.columns
 
+    for col in columns:
         fig = plt.figure()
         ax = fig.add_subplot(1, 1, 1)
         if label == None or col == label:

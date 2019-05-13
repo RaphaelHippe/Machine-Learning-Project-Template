@@ -8,6 +8,8 @@ def main(config):
 
     if config['general']['data']['type'] == 'csv':
         df = pd.read_csv('{}.csv'.format(config['general']['data']['path']))
+        from data_preparation.cleaning import drop_csv_column
+        df = drop_csv_column(df)
     elif config['general']['data']['type'] == 'pickle':
         df = pd.read_pickle('{}.pkl'.format(config['general']['data']['path']))
     else:
@@ -19,7 +21,7 @@ def main(config):
     # description
     if config['data_understanding']['description']['execute']:
         from data_understanding.data_description import describe_data
-        describe_data(df, config['general']['data']['name'])
+        describe_data(df, config['general']['data']['name'], config['data_understanding']['description']['n'])
     # plots
     if config['data_understanding']['plots']['execute']:
         # histograms
@@ -33,13 +35,17 @@ def main(config):
         if config['data_understanding']['plots']['boxplots']['execute']:
             from data_understanding.data_plots import plot_boxplots
             plot_boxplots(df,
-                            columns=config['data_understanding']['plots']['histograms']['columns'],
+                            columns=config['data_understanding']['plots']['boxplots']['columns'],
                             label=config['general']['data']['label'],
-                            format=config['data_understanding']['plots']['histograms']['format'])
+                            format=config['data_understanding']['plots']['boxplots']['format'])
 
     # data preparation
     # from util.machine_learning import extract_X_y
     # X, y = extract_X_y(df, label=config['general']['data']['label'])
+
+    if config['data_preparation']['drop_columns']['execute']:
+        from data_preparation.feature_engineering import drop_columns
+        df = drop_columns(df, config['data_preparation']['drop_columns']['cols'])
 
     if config['data_preparation']['encodings']['execute']:
         from data_preparation.encodings import apply_leave_one_out_encoding
