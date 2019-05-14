@@ -28,6 +28,7 @@ RETURN: -
 def create_workspace():
     create_folder('./tmp')
     create_folder('./tmp/datasets')
+    create_folder('./tmp/description')
     create_folder('./tmp/images')
     create_folder('./tmp/evaluation')
 
@@ -110,7 +111,6 @@ def create_config_yaml():
                 n = 5
             ),
             plots = OrderedDict(
-                execute = False,
                 histograms = OrderedDict(
                     execute = False,
                     columns = -1,

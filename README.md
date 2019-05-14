@@ -22,6 +22,7 @@ A list of used python modules (using pip):
 - category_encoders
 - matplotlib
 - PyYAML
+- seaborn
 
 ## License
 See the [LICENSE](https://github.com/RaphaelHippe/Machine-Learning-Project-Template/blob/master/LICENSE) file fore more information!

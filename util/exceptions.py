@@ -23,3 +23,9 @@ class NoConfigFileError(Exception):
         self.value = value
     def __str__(self):
         return repr('No config.yaml file was found. Use `python setup.py` to generate the config.yaml file.')
+
+class ConfigError(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr('The configuration lead to an error: {}'.format(self.value))

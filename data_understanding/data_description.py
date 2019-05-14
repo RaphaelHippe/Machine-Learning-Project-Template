@@ -27,4 +27,4 @@ def describe_data(df, name, n, include='all'):
 
     file_content += df.tail(n).to_string()
 
-    to_txt_with_versioning('./tmp/datasets/{}_description'.format(name), file_content)
+    to_txt_with_versioning('./tmp/description/{}'.format(name), file_content)
