@@ -120,10 +120,47 @@ def create_config_yaml():
                     execute = False,
                     columns = -1,
                     format = 'png'
-                )
+                ),
+                cat_scatter = OrderedDict(
+                    execute = False,
+                    x_cols = ['a', 'b'],
+                    format = 'png'
+                ),
+                cat_point = OrderedDict(
+                    execute = False,
+                    x_cols = ['a', 'b'],
+                    format = 'png'
+                ),
+                cat_violin = OrderedDict(
+                    execute = False,
+                    x_cols = ['a', 'b'],
+                    format = 'png'
+                ),
+                scatter = OrderedDict(
+                    execute = False,
+                    cols = ['a', 'b'],
+                    format = 'png'
+                ),
+                regression = OrderedDict(
+                    execute = False,
+                    cols = ['a', 'b'],
+                    cat_cols = ['a', 'b'],
+                    format = 'png'
+                ),
+                correlation = False
             )
         ),
         data_preparation = OrderedDict(
+            clean_labels = False,
+            cleaning = OrderedDict(
+                remove_NaN_rows = False,
+                remove_NaN_columns = False,
+                replace_NaN_with_mean = False,
+                clean_numeric = OrderedDict(
+                    execute = False,
+                    cols = ['a']
+                )
+            ),
             drop_columns = OrderedDict(
                 execute = False,
                 cols = ['a']
@@ -133,14 +170,25 @@ def create_config_yaml():
                 encoding = 'LeaveOneOut',
                 categorical_columns = ['a', 'b']
             ),
+            preprocessing = OrderedDict(
+                pca = OrderedDict(
+                    execute = False,
+                    n_components = 5
+                )
+            ),
+            store_prepared = False,
             data_split = OrderedDict(
                 execute = False,
                 validation_set = False,
                 split = [0.8, 0.2],
                 seed = None
-            ),
+            )
         ),
         modeling = OrderedDict(
+            clustering = OrderedDict(
+                execute = False,
+                algorithms = ['dbscan']
+            ),
             classification = OrderedDict(
                 execute = False,
                 classifiers = ['knn']

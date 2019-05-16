@@ -58,6 +58,22 @@ def main(config):
         plot_cat_violin(df,
                         x_cols=config['data_understanding']['plots']['cat_point']['x_cols'],
                         y=config['general']['data']['label'])
+    # scatter
+    if config['data_understanding']['plots']['scatter']['execute']:
+        from data_understanding.data_plots import plot_scatter
+        plot_scatter(df,
+                        cols=config['data_understanding']['plots']['scatter']['cols'],
+                        y=config['general']['data']['label'])
+    # regression
+    if config['data_understanding']['plots']['regression']['execute']:
+        from data_understanding.data_plots import plot_regression
+        plot_regression(df,
+                        cols=config['data_understanding']['plots']['regression']['cols'],
+                        cat_cols=config['data_understanding']['plots']['regression']['cat_cols'])
+    # correlation
+    if config['data_understanding']['plots']['correlation']:
+        from data_understanding.data_plots import plot_corrheatmap
+        plot_corrheatmap(df)
 
     # data preparation
     # from util.machine_learning import extract_X_y
@@ -81,21 +97,21 @@ def main(config):
         from data_preparation.cleaning import replace_NaN_with_mean
         df = replace_NaN_with_mean(df)
 
+    if config['data_preparation']['cleaning']['clean_numeric']['execute']:
+        from data_preparation.cleaning import clean_numeric
+        df = clean_numeric(df, config['data_preparation']['cleaning']['clean_numeric']['cols'])
+
     if config['data_preparation']['encodings']['execute']:
         from data_preparation.encodings import apply_leave_one_out_encoding
+        # TODO: add other encodings similar to classifier choice
         df = apply_leave_one_out_encoding(df, categorical_columns=config['data_preparation']['encodings']['categorical_columns'], label=config['general']['data']['label'])
 
-    if config['data_preparation']['cleaning']['remove_NaN_rows']:
-        from data_preparation.cleaning import remove_NaN_rows
-        df = remove_NaN_rows(df)
-    if config['data_preparation']['cleaning']['remove_NaN_columns']:
-        from data_preparation.cleaning import remove_NaN_columns
-        df = remove_NaN_columns(df)
-    if config['data_preparation']['cleaning']['replace_NaN_with_mean']:
-        from data_preparation.cleaning import replace_NaN_with_mean
-        df = replace_NaN_with_mean(df)
 
-    if config['data_preparation']['store_prepared']['execute']:
+    if config['data_preparation']['preprocessing']['pca']['execute']:
+        from data_preparation.preprocessing import apply_pca
+        df = apply_pca(df, config['general']['data']['label'], n_components=config['data_preparation']['preprocessing']['pca']['n_components'])
+
+    if config['data_preparation']['store_prepared']:
         df.to_csv('./tmp/datasets/{}.csv'.format(config['general']['data']['name']))
 
     if config['data_preparation']['data_split']['execute']:
@@ -113,6 +129,12 @@ def main(config):
                                                                 seed=config['data_preparation']['data_split']['seed'])
 
     # TODO: exception if X_train, y_train etc is not defined
+    # clustering
+    if config['modeling']['clustering']['execute']:
+        # TODO: checks for other algorithms etc
+        from modeling.clustering import train_dbscan
+        # TODO: Proper parameters via config
+        train_dbscan(X_train)
     # modeling
     if config['modeling']['classification']['execute']:
         from modeling.classification import get_classifier_function
@@ -154,7 +176,7 @@ def main(config):
 if os.path.isfile('config.yaml'):
     with open('config.yaml', 'r') as stream:
         try:
-            config = yaml.load(stream)
+            config = yaml.load(stream, Loader=yaml.FullLoader)
             main(config)
         except yaml.YAMLError as exc:
             print(exc)

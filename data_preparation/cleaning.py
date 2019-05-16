@@ -78,9 +78,23 @@ def clean_labels(df, label):
     df[label] = df.apply(transform_labels, args=(label, classes), axis=1)
     return df
 
-
-
-    # import category_encoders as ce
-    # encoder = ce.OrdinalEncoder(cols=[label]).fit(df[label], axis=1)
-    # df_transformed = encoder.transform(df[label])
-    # return df_transformed
+'''
+NAME: clean_numeric
+PARAMS:
+- df: the DataFrame containing the data
+- cols: list of columns to remove non numeric values
+DESCRIPTION: cleans the data to remove non numeric values from otherwise numeric columns
+RETURN: the cleaned DataFrame
+'''
+def clean_numeric(df, cols):
+    if not isinstance(df, pd.DataFrame):
+        raise DataFrameTypeError('df', df)
+    def is_number(s):
+        try:
+            float(s)
+            return True
+        except ValueError:
+            return False
+    for col in cols:
+        df = df[df[col].apply(lambda x: is_number(x))]
+    return df

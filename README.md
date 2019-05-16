@@ -6,7 +6,7 @@ The progress of this project can be tracked [here on GitHub](https://github.com/
 # Machine Learning Project Template
 This template project allows for rapid iterations of the [CRISP-DM](https://en.wikipedia.org/wiki/Cross-industry_standard_process_for_data_mining) approach. It implements various best
 practises of the machine learning field. It serves as a good starting point when
-facing a new machine learning challenge.
+facing a new machine learning challenge. This project does not serve the purpose of being integrated into any sort of production environment.
 
 ## Getting Started
 TODO
